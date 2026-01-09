@@ -1,0 +1,9 @@
+{
+    "name": "devpod-ubuntu-minimal",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "features": {},
+    "remoteUser": "vscode"
+}
+
