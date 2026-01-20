@@ -1,5 +1,8 @@
 #!/bin/bash
-# .bashrc - DevLab Development Environment
+# =====================================================
+# .bashrc - Gruvbox (Official Colors, Suckless Style)
+# Extracted from ellisonleao/gruvbox.nvim
+# Zero dependencies - all colors embedded
 # =====================================================
 
 # If not running interactively, don't do anything
@@ -9,51 +12,98 @@ case $- in
 esac
 
 # =====================================================
-# Welcome Message - Gruvbox Colors
+# Gruvbox Official Color Palette (Complete)
+# Source: ellisonleao/gruvbox.nvim
+# RGB values for ANSI true color
 # =====================================================
 
+# Dark backgrounds
+GRUVBOX_DARK0_HARD="\033[38;2;29;32;33m"       # #1d2021
+GRUVBOX_DARK0="\033[38;2;40;40;40m"            # #282828
+GRUVBOX_DARK1="\033[38;2;60;56;54m"            # #3c3836
+GRUVBOX_DARK2="\033[38;2;80;73;69m"            # #504945
+GRUVBOX_DARK3="\033[38;2;102;92;84m"           # #665c54
+GRUVBOX_DARK4="\033[38;2;124;111;100m"         # #7c6f64
+
+# Light foregrounds
+GRUVBOX_LIGHT0="\033[38;2;251;241;199m"        # #fbf1c7
+GRUVBOX_LIGHT1="\033[38;2;235;219;178m"        # #ebdbb2
+GRUVBOX_LIGHT2="\033[38;2;213;196;161m"        # #d5c4a1
+GRUVBOX_LIGHT3="\033[38;2;189;174;147m"        # #bdae93
+GRUVBOX_LIGHT4="\033[38;2;168;153;132m"        # #a89984
+
+# Bright colors
+GRUVBOX_BRIGHT_RED="\033[38;2;251;73;52m"      # #fb4934
+GRUVBOX_BRIGHT_GREEN="\033[38;2;184;187;38m"   # #b8bb26
+GRUVBOX_BRIGHT_YELLOW="\033[38;2;250;189;47m"  # #fabd2f
+GRUVBOX_BRIGHT_BLUE="\033[38;2;131;165;152m"   # #83a598
+GRUVBOX_BRIGHT_PURPLE="\033[38;2;211;134;155m" # #d3869b
+GRUVBOX_BRIGHT_AQUA="\033[38;2;142;192;124m"   # #8ec07c
+GRUVBOX_BRIGHT_ORANGE="\033[38;2;254;128;25m"  # #fe8019
+
+# Neutral colors
+GRUVBOX_NEUTRAL_RED="\033[38;2;204;36;29m"     # #cc241d
+GRUVBOX_NEUTRAL_GREEN="\033[38;2;152;151;26m"  # #98971a
+GRUVBOX_NEUTRAL_YELLOW="\033[38;2;215;153;33m" # #d79921
+GRUVBOX_NEUTRAL_BLUE="\033[38;2;69;133;136m"   # #458588
+GRUVBOX_NEUTRAL_PURPLE="\033[38;2;177;98;134m" # #b16286
+GRUVBOX_NEUTRAL_AQUA="\033[38;2;104;157;106m"  # #689d6a
+GRUVBOX_NEUTRAL_ORANGE="\033[38;2;214;93;14m"  # #d65d0e
+
+# Gray
+GRUVBOX_GRAY="\033[38;2;146;131;116m"          # #928374
+
+# Reset
+RESET="\033[0m"
+
+# Active colors (hard contrast, dark mode)
+BG0=$GRUVBOX_DARK0_HARD
+FG1=$GRUVBOX_LIGHT1
+RED=$GRUVBOX_BRIGHT_RED
+GREEN=$GRUVBOX_BRIGHT_GREEN
+YELLOW=$GRUVBOX_BRIGHT_YELLOW
+BLUE=$GRUVBOX_BRIGHT_BLUE
+PURPLE=$GRUVBOX_BRIGHT_PURPLE
+AQUA=$GRUVBOX_BRIGHT_AQUA
+ORANGE=$GRUVBOX_BRIGHT_ORANGE
+GRAY=$GRUVBOX_GRAY
+
+# =====================================================
+# Welcome Message (Official Gruvbox)
+# =====================================================
 if [ "$TERM" != "linux" ]; then
-    echo -e "\n\033[38;5;208m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
-    echo -e "\033[38;5;142m  DevLab Development Workspace\033[0m"
-    echo -e "\033[38;5;208m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
-    echo -e "  \033[38;5;214m👤 User:\033[0m $(whoami)@$(hostname)"
-    echo -e "  \033[38;5;214m🛠 Tools:\033[0m docker, kubectl, terraform, k3d, helm"
-    echo -e "  \033[38;5;214m📅 Date:\033[0m $(date '+%A, %B %d, %Y at %H:%M %Z')"
+    echo -e "\n${ORANGE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${RESET}"
+    echo -e "${GREEN}  DevLab Development Workspace${RESET}"
+    echo -e "${ORANGE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${RESET}"
+    echo -e "  ${YELLOW}👤 User:${RESET} $(whoami)@$(hostname)"
+    echo -e "  ${YELLOW}🛠 Tools:${RESET} docker, kubectl, terraform, k3d, helm"
+    echo -e "  ${YELLOW}📅 Date:${RESET} $(date '+%A, %B %d, %Y at %H:%M %Z')"
     
-    # Show git branch if in a git repo
     if git rev-parse --git-dir > /dev/null 2>&1; then
         local branch=$(git branch --show-current 2>/dev/null)
-        echo -e "  \033[38;5;214m🌿 Branch:\033[0m ${branch:-detached}"
+        echo -e "  ${YELLOW}🌿 Branch:${RESET} ${branch:-detached}"
     fi
     
-    # Show disk usage
     local disk_usage=$(df -h / | tail -1 | awk '{print $5}')
-    echo -e "  \033[38;5;214m💾 Disk:\033[0m ${disk_usage} used"
+    echo -e "  ${YELLOW}💾 Disk:${RESET} ${disk_usage} used"
     
-    echo -e "  \033[38;5;214m💡 Tip:\033[0m Type 'alias' to see all shortcuts"
-    echo -e "\033[38;5;208m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m\n"
+    echo -e "  ${YELLOW}💡 Tip:${RESET} Type 'alias' to see all shortcuts"
+    echo -e "${ORANGE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${RESET}\n"
 fi
 
 # =====================================================
 # History Configuration
 # =====================================================
-
 HISTCONTROL=ignoreboth
 HISTSIZE=10000
 HISTFILESIZE=20000
 shopt -s histappend
-
-# =====================================================
-# Shell Options
-# =====================================================
-
 shopt -s checkwinsize
 shopt -s globstar 2>/dev/null
 
 # =====================================================
 # Color Support
 # =====================================================
-
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
@@ -65,23 +115,17 @@ fi
 # =====================================================
 # Aliases
 # =====================================================
-
-# ls aliases
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
-
-# Safety aliases
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
-
-# Navigation
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
 
-# Docker aliases
+# Docker
 alias d='docker'
 alias dc='docker compose'
 alias dps='docker ps'
@@ -90,7 +134,7 @@ alias di='docker images'
 alias dex='docker exec -it'
 alias dlogs='docker logs -f'
 
-# Kubernetes aliases
+# Kubernetes
 alias k='kubectl'
 alias kx='kubectl exec -it'
 alias kl='kubectl logs -f'
@@ -99,7 +143,7 @@ alias kd='kubectl describe'
 alias ka='kubectl apply -f'
 alias kdel='kubectl delete'
 
-# Git aliases
+# Git
 alias g='git'
 alias gs='git status'
 alias ga='git add'
@@ -108,7 +152,7 @@ alias gp='git push'
 alias gl='git log --oneline --graph --decorate'
 alias gd='git diff'
 
-# Terraform aliases
+# Terraform
 alias tf='terraform'
 alias tfi='terraform init'
 alias tfp='terraform plan'
@@ -116,15 +160,10 @@ alias tfa='terraform apply'
 alias tfd='terraform destroy'
 
 # =====================================================
-# Custom Functions
+# Functions
 # =====================================================
+mkcd() { mkdir -p "$1" && cd "$1"; }
 
-# Make directory and cd into it
-mkcd() {
-    mkdir -p "$1" && cd "$1"
-}
-
-# Extract archives
 extract() {
     if [ -f "$1" ]; then
         case $1 in
@@ -139,48 +178,27 @@ extract() {
             *.zip)       unzip "$1"       ;;
             *.Z)         uncompress "$1"  ;;
             *.7z)        7z x "$1"        ;;
-            *)           echo "$1 cannot be extracted via extract()" ;;
+            *)           echo "$1 cannot be extracted" ;;
         esac
     else
         echo "$1 is not a valid file"
     fi
 }
 
-# Find process by name
-psgrep() {
-    ps aux | grep -v grep | grep -i -e VSZ -e "$1"
-}
+psgrep() { ps aux | grep -v grep | grep -i -e VSZ -e "$1"; }
+myip() { curl -s ifconfig.me; }
+serve() { python3 -m http.server "${1:-8000}"; }
 
-# Get current IP
-myip() {
-    curl -s ifconfig.me
-}
-
-# Quick HTTP server
-serve() {
-    local port="${1:-8000}"
-    python3 -m http.server "$port"
-}
-
-# Docker quick shell
 dsh() {
-    if [ -z "$1" ]; then
-        echo "Usage: dsh <container>"
-        return 1
-    fi
+    [ -z "$1" ] && echo "Usage: dsh <container>" && return 1
     docker exec -it "$1" /bin/bash || docker exec -it "$1" /bin/sh
 }
 
-# Kubernetes quick shell
 ksh() {
-    if [ -z "$1" ]; then
-        echo "Usage: ksh <pod>"
-        return 1
-    fi
+    [ -z "$1" ] && echo "Usage: ksh <pod>" && return 1
     kubectl exec -it "$1" -- /bin/bash || kubectl exec -it "$1" -- /bin/sh
 }
 
-# Set kubectl namespace
 kns() {
     if [ -z "$1" ]; then
         echo "Current namespace: $(kubectl config view --minify --output 'jsonpath={..namespace}')"
@@ -190,82 +208,47 @@ kns() {
     fi
 }
 
-# Docker compose tail logs
 dctail() {
-    if [ -z "$1" ]; then
-        docker compose logs -f
-    else
-        docker compose logs -f "$1"
-    fi
+    [ -z "$1" ] && docker compose logs -f || docker compose logs -f "$1"
 }
 
-# Git quick commit
 gca() {
-    git add .
-    git commit -m "$1"
-    git push
+    [ -z "$1" ] && echo "Usage: gca <commit message>" && return 1
+    git add . && git commit -m "$1" && git push
 }
 
 # =====================================================
-# Kubernetes Completion (if installed)
+# Kubernetes Completion
 # =====================================================
-
 if command -v kubectl &>/dev/null; then
     source <(kubectl completion bash)
     complete -F __start_kubectl k
 fi
 
 # =====================================================
-# FZF Integration (if installed)
+# Prompt (Official Gruvbox)
 # =====================================================
-
-if [ -f ~/.fzf.bash ]; then
-    source ~/.fzf.bash
-    
-    # Use fd instead of find if available
-    if command -v fd &>/dev/null; then
-        export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
-        export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-    fi
-fi
-
-# =====================================================
-# Prompt Configuration
-# =====================================================
-
-# Git branch in prompt
 parse_git_branch() {
     git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
 }
 
-# Colorful prompt with git branch
 if [ "$TERM" != "linux" ]; then
-    PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[33m\]$(parse_git_branch)\[\033[00m\]\$ '
+    PS1="${GREEN}\u@\h${RESET}:${BLUE}\w${YELLOW}\$(parse_git_branch)${RESET}\$ "
 else
     PS1='\u@\h:\w\$ '
 fi
 
 # =====================================================
-# Tool-specific Configurations
+# Environment Variables
 # =====================================================
-
-# Docker buildkit
 export DOCKER_BUILDKIT=1
 export COMPOSE_DOCKER_CLI_BUILD=1
-
-# Kubectl editor
-export KUBE_EDITOR='nvim'
-
-# Default editor
 export EDITOR='nvim'
 export VISUAL='nvim'
+export KUBE_EDITOR='nvim'
 
 # =====================================================
 # Local Customizations
 # =====================================================
-
-# Source local bashrc if exists
-if [ -f ~/.bashrc.local ]; then
-    source ~/.bashrc.local
-fi
+[ -f ~/.bashrc.local ] && source ~/.bashrc.local
 
