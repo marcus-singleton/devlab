@@ -16,6 +16,16 @@ sudo apt-get install -y \
     fd-find \
     fzf
 
+# Verify it exists
+if [ ! -d "$DOTFILES_DIR" ]; then
+    echo "❌ ERROR: Dotfiles not found at $DOTFILES_DIR"
+    echo "Current directory: $(pwd)"
+    echo "Home directory: $HOME"
+    echo "Contents of /workspaces:"
+    ls -la /workspaces/
+    exit 1
+fi
+
 # Copy dotfiles
 echo "📝 Copying dotfiles..."
 cp "${DOTFILES_DIR}/.bashrc" ~/.bashrc
@@ -24,10 +34,16 @@ cp "${DOTFILES_DIR}/.vimrc" ~/.vimrc 2>/dev/null || true
 
 # Neovim config
 mkdir -p ~/.config/nvim
-cp -r "${DOTFILES_DIR}/nvim/"* ~/.config/nvim/
 
-# Vim undodir
-mkdir -p ~/.vim/undodir
+if [ -f "${DOTFILES_DIR}/nvim/init.lua" ]; then
+    cp "${DOTFILES_DIR}/nvim/init.lua" ~/.config/nvim/init.lua
+    echo "  ✓ Copied nvim/init.lua"
+fi
+
+if [ -d "${DOTFILES_DIR}/nvim/lua" ]; then
+    cp -r "${DOTFILES_DIR}/nvim/lua" ~/.config/nvim/
+    echo "  ✓ Copied nvim/lua directory"
+fi
 
 # FZF
 if [ ! -d ~/.fzf ]; then

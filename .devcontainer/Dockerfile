@@ -6,6 +6,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
 # Install essentials
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
+    apt-utils \
     ca-certificates \
     curl \
     wget \
