@@ -1,29 +1,36 @@
-FROM mcr.microsoft.com/devcontainers/base:ubuntu-24.04
+FROM ubuntu:24.04
 
-# Only lightweight core system packages
+ENV DEBIAN_FRONTEND=noninteractive \
+    TZ=America/Phoenix
+
+# Install essentials
 RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-    # Core networking & system tools
+    apt-get install -y --no-install-recommends \
     ca-certificates \
     curl \
     wget \
-    dnsutils \
-    net-tools \
-    iproute2 \
-    zip \
-    unzip \
-    # Monitoring & viewing
-    htop \
+    git \
+    openssh-client \
+    bash \
+    bash-completion \
+    sudo \
+    procps \
     jq \
-    less \
-    tree \
-    tcpdump \
-    # Build essentials
-    build-essential \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
 
-# Set timezone
-ENV TZ=America/Phoenix
+# Create 'dev' user
+RUN groupadd --gid 1000 dev && \
+    useradd --uid 1000 --gid 1000 -m -s /bin/bash dev && \
+    echo "dev ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/dev && \
+    chmod 0440 /etc/sudoers.d/dev
 
-RUN echo "✅ Base system ready"
+# Disable root login
+RUN passwd -l root
+
+USER dev
+WORKDIR /workspaces
+
+LABEL maintainer="marcus-singleton" \
+      description="DevLab development workspace"
 

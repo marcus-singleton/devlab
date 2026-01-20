@@ -5,7 +5,7 @@ echo "📦 Setting up user environment..."
 
 DOTFILES_DIR=".devcontainer/dotfiles"
 
-# Install user-space tools (only things not in Features or Dockerfile)
+# Install user tools
 echo "📦 Installing user tools..."
 sudo apt-get update
 sudo apt-get install -y \
@@ -29,12 +29,15 @@ cp -r "${DOTFILES_DIR}/nvim/"* ~/.config/nvim/
 # Vim undodir
 mkdir -p ~/.vim/undodir
 
-# Install FZF
+# FZF
 if [ ! -d ~/.fzf ]; then
     echo "📦 Installing FZF..."
     git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
     ~/.fzf/install --all
 fi
+
+# Fix ownership
+sudo chown -R dev:dev /home/dev
 
 echo "✅ User environment ready!"
 
