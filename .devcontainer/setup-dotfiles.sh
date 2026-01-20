@@ -3,7 +3,7 @@ set -e
 
 echo "📦 Setting up user environment..."
 
-DOTFILES_DIR=".devcontainer/dotfiles"
+DOTFILES_DIR="/workspaces/devlab/.devcontainer/dotfiles"
 
 # Install user tools
 echo "📦 Installing user tools..."
